@@ -39,6 +39,14 @@ def scalar_projection(vec, dest_vec):
 
 
 @jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
+def vecmean(vecs):
+    return np.mean(vecs)
+
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
+def vecdot(a, b):
+    return np.dot(a, b)
+
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def squared_vecmag(vec):
     x = np.linalg.norm(vec)
     return x * x
