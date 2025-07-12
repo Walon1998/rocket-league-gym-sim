@@ -3,12 +3,15 @@ A basic library for useful mathematical operations.
 """
 
 import numpy as np
+from numba import jit
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def get_dist(x, y):
     return np.subtract(x, y)
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def vector_projection(vec, dest_vec, mag_squared=None):
     if mag_squared is None:
         norm = vecmag(dest_vec)
@@ -24,6 +27,7 @@ def vector_projection(vec, dest_vec, mag_squared=None):
     return projection
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def scalar_projection(vec, dest_vec):
     norm = vecmag(dest_vec)
 
@@ -34,24 +38,29 @@ def scalar_projection(vec, dest_vec):
     return dot
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def squared_vecmag(vec):
     x = np.linalg.norm(vec)
     return x * x
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def vecmag(vec):
     norm = np.linalg.norm(vec)
     return norm
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def unitvec(vec):
     return np.divide(vec, vecmag(vec))
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def cosine_similarity(a, b):
     return np.dot(a / np.linalg.norm(a), b / np.linalg.norm(b))
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def quat_to_euler(quat):
     w, x, y, z = quat
     sinr_cosp = 2 * (w * x + y * z)
@@ -71,6 +80,7 @@ def quat_to_euler(quat):
 
 
 # From RLUtilities
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
     w = -quat[0]
     x = -quat[1]
@@ -101,6 +111,7 @@ def quat_to_rot_mtx(quat: np.ndarray) -> np.ndarray:
     return theta
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     trace = np.trace(m)
     q = np.zeros(4)
@@ -137,6 +148,7 @@ def rotation_to_quaternion(m: np.ndarray) -> np.ndarray:
     return -q
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def other_rot_to_quat(a):
     q = [0,0,0,0]
     trace = a[0][0] + a[1][1] + a[2][2]
@@ -168,6 +180,8 @@ def other_rot_to_quat(a):
 
     return q
 
+
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def euler_to_rotation(pyr):
     cp, cy, cr = np.cos(pyr)
     sp, sy, sr = np.sin(pyr)
@@ -192,10 +206,12 @@ def euler_to_rotation(pyr):
     return theta
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def rand_uvec3(rng: np.random.Generator = np.random):
     vec = rng.random(3) - 0.5
     return vec / np.linalg.norm(vec)
 
 
+@jit(nopython=True, nogil=True, cache=True, parallel=False, fastmath=True)
 def rand_vec3(max_norm, rng: np.random.Generator = np.random):
     return rand_uvec3(rng) * (rng.random() * max_norm)
